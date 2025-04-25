@@ -1,4 +1,4 @@
-export default function OsIcon({width=25, height=25, selected}){
+export default function OsIcon({width=30, height=30, selected}){
     return(
         
      
