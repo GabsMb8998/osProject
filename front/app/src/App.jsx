@@ -7,7 +7,7 @@ import Home from './pages/Home'
 
 function App() {
   return(
-    <div>
+    <div className='bg-[#1C1C1C] h-screen'>
       <Home/>
     </div>
   )
