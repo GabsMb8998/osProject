@@ -46,7 +46,7 @@ export default function SideBar(){
     // const [teste, setTeste] = useState([1,2,3])
     // console.log(teste.length)
     return(
-        <aside className={`${open ? ' w-72 ':'w-24'} bg-[#2D2D2D] h-screen`}>
+        <aside className={`${open ? ' w-72 ':'w-24'} h-screen`}>
 
             <div className="mx-10 py-10 flex flex-col gap-y-8">
                 <ItemSideBar icon={<HomeIcon selected={selected==='home'} />} selected={selected==='home'} label={'home'} onClick={()=>changeSelected('home')}/>
