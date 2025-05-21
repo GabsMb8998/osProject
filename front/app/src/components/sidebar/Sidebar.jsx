@@ -16,40 +16,13 @@ export default function SideBar(){
         setSelected(selected)
     }
 
-    function xpto (n1, n2){
-
-        while (n1 != n2){
-            if (n1 < n2){
-                n2 = n2 - n1
-            }
-            else{
-                n1 = n1 - n2
-            }
-        return n1
-    }
-
-    }
-
-    console.log(xpto(50,5),'aaaaa')
-
-    function teste(x){
-        if (x<1){
-            return 0 ;
-        }else {
-            return 4+teste(x-1)
-        }
-    }
-
-
-    console.log(teste(5))
-
     // const [teste, setTeste] = useState([1,2,3])
     // console.log(teste.length)
     return(
         <aside className={`${open ? ' w-72 ':'w-24'} h-screen`}>
 
             <div className="mx-10 py-10 flex flex-col gap-y-8">
-                <ItemSideBar icon={<HomeIcon selected={selected==='home'} />} selected={selected==='home'} label={'home'} onClick={()=>changeSelected('home')}/>
+                <ItemSideBar icon={<HomeIcon width={22} selected={selected==='home' } />} selected={selected==='home'} label={'home'} onClick={()=>changeSelected('home')}/>
                 <ItemSideBar icon={<OsIcon selected={selected==='os'} />} selected={selected==='os'} label={'os'} onClick={()=>changeSelected('os')}/>
                 <ItemSideBar icon={<PatrimoniosIcon selected={selected==='patrimonios'} />} selected={selected==='patrimonios'} label={'patrimonios'} onClick={()=>changeSelected('patrimonios')}/>
                 <ItemSideBar icon={<GerenteICon selected={selected==='gerentes'} />} selected={selected==='gerentes'} label={'gerentes'} onClick={()=>changeSelected('gerentes')}/>
