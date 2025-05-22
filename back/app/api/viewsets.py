@@ -1,49 +1,53 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
+from rest_framework.parsers import MultiPartParser, FormParser
 
-from ..models import Gestores, Patrimonios, Ambientes, Manutentores, Area, OrdemDeServico
-from .serializer import GestoresSerializer, PatrimoniosSerializer, AmbientesSerializer, ManutentoresSerializer, AreaSerializer, OrdemServicoSerializer
+
+import io
+import pandas as pd
+
+from ..models import Patrimonios, Ambientes, Area, OrdemDeServico, Funcionarios
+from .serializer import FuncionariosSerializer, PatrimoniosSerializer, AmbientesSerializer, AreaSerializer, OrdemServicoSerializer, CsvSerializer
 
 # CRUD GESTORES ============================================================================
-class GetGestores(APIView):
+class GetFuncionarios(APIView):
 
     def get(self, request):
-        gestores = Gestores.objects.all()
-        serializer = GestoresSerializer(gestores, many=True)
+        funcionarios = Funcionarios.objects.all()
+        serializer = FuncionariosSerializer(funcionarios, many=True)
         return Response(serializer.data)
     
-class PostGestores(APIView):
+class PostFuncionario(APIView):
 
     def post(self, request):
 
-        serializer = GestoresSerializer(data=request.data)
+        serializer = FuncionariosSerializer(data=request.data)
 
         if serializer.is_valid():
-            gestor_new = serializer.save()
+            funcionario_new = serializer.save()
             return Response(status = status.HTTP_201_CREATED)
-
         return Response(status = status.HTTP_400_BAD_REQUEST) 
 
-class PatchGestores(APIView):
+class PatchFuncionario(APIView):
     def patch(self,request, pk):
 
-        gestor = Gestores.objects.get(pk=pk)
-        serializer = GestoresSerializer(gestor, data=request.data, partial=True)
+        funcionario = Funcionarios.objects.get(pk=pk)
+        serializer = FuncionariosSerializer(funcionario, data=request.data, partial=True)
 
         if serializer.is_valid():
-            gestor_update = serializer.save()
+            funcionario_update = serializer.save()
             return Response(status= status.HTTP_200_OK)
         
         return Response(status=status.HTTP_400_BAD_REQUEST)
     
-class DeleteGestores(APIView):
+class DeleteFuncionario(APIView):
     def delete(self,request, pk):
 
-        gestor = Gestores.objects.get(pk=pk)
+        funcionario = Funcionarios.objects.get(pk=pk)
 
-        if gestor:
-            gestor.delete()
+        if funcionario:
+            funcionario.delete()
             return Response(status=status.HTTP_200_OK)
         
         return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -137,52 +141,6 @@ class DeleteAmbiente(APIView):
         
         return Response(status=status.HTTP_400_BAD_REQUEST)
     
-    
-# CRUD MANUTENTORES ==========================================================================
-
-class GetManutentores(APIView):
-
-    def get(self, request):
-        manutentores = Manutentores.objects.all()
-        serializer = ManutentoresSerializer(manutentores, many=True)
-        return Response(serializer.data)
-    
-class PostManutentor(APIView):
-
-    def post(self, request):
-        serializer = ManutentoresSerializer(data=request.data)
-
-        if serializer.is_valid():
-            manutentor_new = serializer.save()
-            return Response(status = status.HTTP_201_CREATED)
-
-        return Response(status = status.HTTP_400_BAD_REQUEST) 
-
-class PatchManutentor(APIView):
-    def patch(self,request, pk):
-
-        manutentor = Manutentores.objects.get(pk=pk)
-        serializer = ManutentoresSerializer(manutentor, data=request.data, partial=True)
-
-        if serializer.is_valid():
-            manutentor_update = serializer.save()
-            return Response(status= status.HTTP_200_OK)
-        
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-    
-class DeleteManutentor(APIView):
-    def delete(self,request, pk):
-
-        manutentor = Manutentores.objects.get(pk=pk)
-
-        if manutentor:
-            manutentor.delete()
-            return Response(status=status.HTTP_200_OK)
-        
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-    
-
-
 # CRUD AREA ==========================================================================
 
 class GetAreas(APIView):
@@ -272,5 +230,47 @@ class DeleteOrdemDeServico(APIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
     
 # LEITURA ARQUIVO CSV
+class UploadExcelView(APIView):
 
-    
+    queryset =  OrdemDeServico.objects.all()
+    # serializer_class = CsvSerializer
+    parser_classes = (MultiPartParser, FormParser)
+
+    def post(self, request):
+        
+        print(request)
+
+        print(serializer)
+
+        if serializer.is_valid():
+            file = request.FILES['file']
+            # table = request.data.get('table')
+            print(table, 'table')
+        
+            df = pd.read_excel(file)
+        
+
+        for index, row in df.iterrows():
+
+            # if table == 'area':
+
+                area = {
+                    'nome' : row.get('area'),
+                }
+
+                serializer = AreaSerializer(data=area.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(status=status.HTTP_201_CREATED)
+                
+            # elif table == 'patrimonio':
+
+                #       area = {
+                #     'nome' : row.get('area'),
+                # }
+
+                # serializer = AreaSerializer(data=area.data)
+                # if serializer.is_valid():
+                #     serializer.save()
+                #     return Response(status=status.HTTP_201_CREATED)
+                

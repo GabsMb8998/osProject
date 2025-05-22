@@ -1,10 +1,11 @@
 from django.urls import path, include
 from . import views
+# from .views import Teste
 from app.api.viewsets import (
-    GetGestores,
-    PostGestores,
-    PatchGestores,
-    DeleteGestores,
+    GetFuncionarios,
+    PostFuncionario,
+    PatchFuncionario,
+    DeleteFuncionario,
 
     GetPatrimonios,
     PostPatrimonios,
@@ -16,11 +17,6 @@ from app.api.viewsets import (
     PatchAmbiente,
     DeleteAmbiente,
 
-    GetManutentores,
-    PostManutentor,
-    PatchManutentor,
-    DeleteManutentor,
-
     GetAreas,
     PostArea,
     PatchArea,
@@ -29,15 +25,19 @@ from app.api.viewsets import (
     GetOrdensDeServico,
     PostOrdensDeServico,
     PatchOrdemDeServico,
-    DeleteOrdemDeServico
+    DeleteOrdemDeServico,
+
+    UploadExcelView
+
+
     )
 
 urlpatterns = [
     
-    path('api/gestores/get', GetGestores.as_view()),    
-    path('api/gestores/post', PostGestores.as_view()),    
-    path('api/gestores/patch', PatchGestores.as_view()),    
-    path('api/gestores/delete', DeleteGestores.as_view()),   
+    path('api/gestores/get', GetFuncionarios.as_view()),    
+    path('api/gestores/post', PostFuncionario.as_view()),    
+    path('api/gestores/patch', PatchFuncionario.as_view()),    
+    path('api/gestores/delete', DeleteFuncionario.as_view()),   
 
     path('api/patrimonios/get', GetPatrimonios.as_view()),    
     path('api/patrimonios/post', PostPatrimonios.as_view()),    
@@ -49,11 +49,6 @@ urlpatterns = [
     path('api/ambientes/patch', PatchAmbiente.as_view()),    
     path('api/ambientes/delete', DeleteAmbiente.as_view()),   
 
-    path('api/manutentores/get', GetManutentores.as_view()),    
-    path('api/manutentores/post', PostManutentor.as_view()),    
-    path('api/manutentores/patch', PatchManutentor.as_view()),    
-    path('api/manutentores/delete', DeleteManutentor.as_view()),   
-
     path('api/area/get', GetAreas.as_view()),    
     path('api/area/post', PostArea.as_view()),    
     path('api/area/patch', PatchArea.as_view()),    
@@ -62,6 +57,9 @@ urlpatterns = [
     path('api/ordemServico/get', GetOrdensDeServico.as_view()),    
     path('api/ordemServico/post', PostOrdensDeServico.as_view()),    
     path('api/ordemServico/patch', PatchOrdemDeServico.as_view()),    
-    path('api/ordemServico/delete', DeleteOrdemDeServico.as_view()),   
+    path('api/ordemServico/delete', DeleteOrdemDeServico.as_view()),  
+
+
+    path('api/upload/areas', UploadExcelView.as_view()),  
    
 ]
