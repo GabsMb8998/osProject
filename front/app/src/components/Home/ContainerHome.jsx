@@ -1,6 +1,6 @@
-export default function ContainerHome({Icon, text, title}){
+export default function ContainerHome({Icon, text, title, onClick}){
     return(
-        <div className="bg-[#252525] flex flex-col items-center w-[430px] p-10 rounded hover:bg-[#151515] hover:scale-105 duration-100">
+        <div className="bg-[#252525] flex flex-col items-center w-[430px] p-10 rounded hover:bg-[#151515] hover:scale-105 duration-100" onClick={()=>onClick()}>
             <div className="h-[80px] flex items-center">
                 {Icon}
             </div>

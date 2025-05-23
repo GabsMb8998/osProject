@@ -251,6 +251,7 @@ class UploadExcelView(APIView):
         
 
         for index, row in df.iterrows():
+            print(row) 
 
             # if table == 'area':
         #     area = {
@@ -284,36 +285,44 @@ class UploadExcelView(APIView):
                 
             # if table == 'patrimonio':
 
-            # responsavel_sn = row.get('responsavel', '').strip()
-            # func_obj = Funcionarios.objects.get(nome=responsavel_sn)
+        #     responsavel_id = row.get('responsavel')
+        #     # print(f"ID do responsável recebido: {responsavel_id}")
+        #     func_obj = Funcionarios.objects.get(id=responsavel_id)
 
-            responsavel_sn = str(row.get('responsavel')).strip()
-            func_obj = Funcionarios.objects.get(sn=responsavel_sn)
+        #     ambiente = {
+        #         'sig' : row.get('sig'),
+        #         'descricao' : row.get('descricao'),
+        #         'responsavel' : func_obj.id,
+        #         }
 
-            ambiente = {
-                'sig' : row.get('sig'),
+        #     # print("Dados do ambiente:", ambiente)
+
+        #     serializer = AmbientesSerializer(data=ambiente)
+        #     if serializer.is_valid():
+        #         print(func_obj, 'testee')
+        #         serializer.save()
+        #         # print("Ambiente SALVO com ID:", amb_obj.id)
+        #     else:
+        #         print("Erro de validação:", serializer.errors)
+
+        # return Response(status=status.HTTP_201_CREATED)
+
+            # if table == 'patrimonio':
+
+            localizacao = row.get('localizacao')
+        #     # print(f"ID do responsável recebido: {responsavel_id}")
+            func_obj = Ambientes.objects.get(sig=localizacao)
+
+            patrimonio = {
+                'ni' : row.get('ni'),
                 'descricao' : row.get('descricao'),
-                'responsavel' : func_obj.id,
+                'localizacao' : func_obj.id,
                 }
 
-            serializer = AmbientesSerializer(data=ambiente)
+            serializer = PatrimoniosSerializer(data=patrimonio)
             if serializer.is_valid():
                 serializer.save()
 
         return Response(status=status.HTTP_201_CREATED)
-
-            # if table == 'patrimonio':
-
-        #     patrimonio = {
-        #         'ni' : row.get('ni'),
-        #         'descricao' : row.get('descricao'),
-        #         'localizacao' : row.get('localizacao'),
-        #         }
-
-        #     serializer = PatrimoniosSerializer(data=patrimonio)
-        #     if serializer.is_valid():
-        #         serializer.save()
-
-        # return Response(status=status.HTTP_201_CREATED)
                 
                 

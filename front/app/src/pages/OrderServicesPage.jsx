@@ -9,20 +9,21 @@ import addIcon from "../images/icons/addIcon.svg"
 import searchIcon from "../images/icons/searchIcon.svg"
 import uploadIcon from "../images/icons/uploadIcon.svg"
 import expandedIcon from "../images/icons/expandedIcon.svg"
+import Titulo from "../components/Titulo";
 
 
 
 export default function OrderServicesPage({}){
     return(
 
-        <div>
+        <div className="bg-[#1C1C1C] h-screen">
             <Header/>
             <div className="flex text-4xl font-medium">
                 <SideBar/>    
 
                 <section className="my-10 mx-96 w-full mr-96">
                     <div className="border-b border-b-[#3B3B3B]">
-                        <h1 className="text-[#E8E8E8]">Orders Services</h1>
+                        <Titulo label={'Orders Services'}/>
 
                         <div className="flex items-end my-7 mb-12 gap-x-6 ">
                             {/* barra de pesquisa  */}

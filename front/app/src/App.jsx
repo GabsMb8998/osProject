@@ -9,7 +9,7 @@ import OrderServicesPage from './pages/OrderServicesPage'
 function App() {
   return(
     <div className='bg-[#1C1C1C] h-screen'>
-      <OrderServicesPage/>
+      <Home/>
     </div>
   )
 

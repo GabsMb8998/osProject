@@ -14,9 +14,8 @@ class Funcionarios(models.Model):
 
 class Ambientes(models.Model):
     sig = models.IntegerField(unique=True) #identificacao do ambiente
-    # sn = models.CharField(max_length=20, unique=True) #identificacao do funcionario
     descricao = models.CharField(max_length=200)
-    reponsavel = models.ForeignKey(Funcionarios, on_delete=models.CASCADE)
+    responsavel = models.ForeignKey(Funcionarios, on_delete=models.CASCADE)
 
 class Patrimonios(models.Model):
     ni = models.CharField(max_length=30, unique=True)
