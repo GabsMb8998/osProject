@@ -240,37 +240,80 @@ class UploadExcelView(APIView):
         
         print(request)
 
-        print(serializer)
+        # print(serializer)
 
-        if serializer.is_valid():
-            file = request.FILES['file']
+        # if serializer.is_valid():
+        file = request.FILES['file']
             # table = request.data.get('table')
-            print(table, 'table')
+            # print(table, 'table')
         
-            df = pd.read_excel(file)
+        df = pd.read_excel(file)
         
 
         for index, row in df.iterrows():
 
             # if table == 'area':
+        #     area = {
+        #         'nome' : row.get('area'),
+        #     }
 
-                area = {
-                    'nome' : row.get('area'),
+        #     serializer = AreaSerializer(data=area)
+        #     if serializer.is_valid():
+        #         serializer.save()
+
+        # return Response(status=status.HTTP_201_CREATED)
+                    
+            # if table == 'patrimonio':
+
+        #     area_nome = row.get('area')
+        #     area_obj = Area.objects.get(nome=area_nome)
+
+        #     funcionarios = {
+        #         'sn' : row.get('sn'),
+        #         'nome' : row.get('nome'),
+        #         'email' : row.get('email'),
+        #         'cargo' : row.get('cargo'),
+        #         'area' : area_obj.id
+        #         }
+
+        #     serializer = FuncionariosSerializer(data=funcionarios)
+        #     if serializer.is_valid():
+        #         serializer.save()
+
+        # return Response(status=status.HTTP_201_CREATED)
+                
+            # if table == 'patrimonio':
+
+            # responsavel_sn = row.get('responsavel', '').strip()
+            # func_obj = Funcionarios.objects.get(nome=responsavel_sn)
+
+            responsavel_sn = str(row.get('responsavel')).strip()
+            func_obj = Funcionarios.objects.get(sn=responsavel_sn)
+
+            ambiente = {
+                'sig' : row.get('sig'),
+                'descricao' : row.get('descricao'),
+                'responsavel' : func_obj.id,
                 }
 
-                serializer = AreaSerializer(data=area.data)
-                if serializer.is_valid():
-                    serializer.save()
-                    return Response(status=status.HTTP_201_CREATED)
+            serializer = AmbientesSerializer(data=ambiente)
+            if serializer.is_valid():
+                serializer.save()
+
+        return Response(status=status.HTTP_201_CREATED)
+
+            # if table == 'patrimonio':
+
+        #     patrimonio = {
+        #         'ni' : row.get('ni'),
+        #         'descricao' : row.get('descricao'),
+        #         'localizacao' : row.get('localizacao'),
+        #         }
+
+        #     serializer = PatrimoniosSerializer(data=patrimonio)
+        #     if serializer.is_valid():
+        #         serializer.save()
+
+        # return Response(status=status.HTTP_201_CREATED)
                 
-            # elif table == 'patrimonio':
-
-                #       area = {
-                #     'nome' : row.get('area'),
-                # }
-
-                # serializer = AreaSerializer(data=area.data)
-                # if serializer.is_valid():
-                #     serializer.save()
-                #     return Response(status=status.HTTP_201_CREATED)
                 
