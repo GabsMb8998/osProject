@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'app',
     'rest_framework',
     "corsheaders",
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -59,6 +60,12 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 ROOT_URLCONF = 'back.urls'
 

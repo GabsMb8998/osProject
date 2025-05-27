@@ -1,4 +1,5 @@
 import ContainerHome from "../components/Home/ContainerHome";
+import Logo from "../components/Logo";
 import SideBar from "../components/sidebar/Sidebar";
 import HeritageIconHome from "../images/icons/home/HeritageIconHome";
 import ManagersIconHome from "../images/icons/home/ManagersIconHome";
@@ -13,9 +14,9 @@ export default function Home(){
     const navigate = useNavigate()
 
     return(
-        <div className="flex flex-col justify-center h-screen">
+        <div className="flex flex-col justify-center h-screen bg-[#1C1C1C]">
             <div className="flex flex-col items-center w-full mb-8">
-                <h4 className="bg-linear-to-r from-[#DAC8FF] to-[#FFF8FD]  bg-clip-text text-transparent font-bold italic text-lg">OrderFlow</h4>
+                <Logo/>
                 <h1 className="bg-linear-to-r from-[#FFFFFF] to-[#AFAFAF]  bg-clip-text text-transparent font-medium text-5xl">What do you wanna do?</h1>
             </div>
 
