@@ -51,8 +51,8 @@ urlpatterns = [
 
     path('api/area/get', GetAreas.as_view()),    
     path('api/area/post', PostArea.as_view()),    
-    path('api/area/patch', PatchArea.as_view()),    
-    path('api/area/delete', DeleteArea.as_view()),   
+    path('api/area/patch/<int:pk>', PatchArea.as_view()),    
+    path('api/area/delete/<int:pk>', DeleteArea.as_view()),   
 
     path('api/ordemServico/get', GetOrdensDeServico.as_view()),    
     path('api/ordemServico/post', PostOrdensDeServico.as_view()),    

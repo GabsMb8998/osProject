@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
+
+// images 
+import addIcon from "../images/icons/addIcon.svg"
+import iconViewMore from "../images/icons/iconViewMore.svg"
+import iconUpload from "../images/icons/uploadIcon.svg"
+
+
+// componentes 
 import Header from "../components/Header";
 import SideBar from "../components/sidebar/Sidebar";
 import Titulo from "../components/Titulo";
 import ButtonPink from "../components/ButtonPink";
-import addIcon from "../images/icons/addIcon.svg"
-import iconViewMore from "../images/icons/iconViewMore.svg"
 import Modal from "../components/Modal.jsx/Modal";
 import ContentModalArea from "../components/Modal.jsx/ContentModalArea";
+import ButtonCinza from "../components/Botoes/ButtonCinza";
+import ButtonUploadFile from "../components/ButtonUploadFile";
 
 export default function AreasPage(){
 
@@ -14,8 +22,17 @@ export default function AreasPage(){
     const [openModal, setOpenModal] = useState(false)
     const [selectedArea, setSelectedArea] = useState()
     const [onChangeArea, setOnchangeArea ] = useState()
+    const [file, setFile ] = useState()
 
-    useEffect(()=>{
+    useEffect(() => {
+        if (openModal) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+}, [openModal])
+    function getAreas(){
         fetch('http://127.0.0.1:8000/api/area/get',).then(response=>{
             if (!response.ok){
                 console.error('não foi possivel buscar os dados')
@@ -28,13 +45,87 @@ export default function AreasPage(){
             //     area
             // }))
         })
+    }
+    useEffect(()=>{
+        getAreas()
     }, [])
+    console.log(selectedArea, 'are selecionada')
 
-    console.log(onChangeArea, 'changeArea')
+    function changeNameArea(newName){
+        if (newName != ""){
+            fetch(`http://127.0.0.1:8000/api/area/patch/${selectedArea.id}`, {
+                method: 'PATCH',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nome: newName,
+             
+                })
+            }).then(response=>{
+                if(!response.ok){
+                    // notifyError('Esse usuário já existe')
+                    throw new Error('Não foi possivel atualizar o nome da area: ' + response.statusText);
+                }
+                console.log("mudança feita com sucesso")
+                getAreas()
+                setOpenModal(false)
+                // notifySuccess()
+                // navigate('/')
+                // return response.json()
+            })
+        }
+    }
+
+    function deleteArea(){
+        fetch(`http://127.0.0.1:8000/api/area/delete/${selectedArea.id}`, {
+            method: 'DELETE'
+        }).then(response=>{
+              if(!response.ok){
+                    // notifyError('Esse usuário já existe')
+                    throw new Error('Não foi possivel deletar a area' + response.statusText);
+                }
+                console.log("area deletada com sucesso!")
+                getAreas()
+                setOpenModal(false)
+        })
+    }
+    console.log(file, 'file')
+
+    function uploadExcel(){
+    
+        const formData = new FormData()
+
+        formData.append("file", file)
+        formData.append("table", "area")
+
+        fetch('http://127.0.0.1:8000/api/upload/areas', {
+            method: "POST", 
+            body: formData
+        }).then(response=>{
+            if(!response.ok){
+                throw new Error('Não foi fazer o upload do arquivo' + response.statusText);
+            }
+            console.log("upload realizado com sucesso")
+            getAreas()
+        })
+
+    }
+    
+    const  handleFileChange = (e) =>{
+        setFile(e.target.files[0])
+    }
+
+    useEffect(()=>{
+        if (file){
+        uploadExcel()
+            
+        }
+    }, [file])
 
 
     return(
-          <div className={`${openModal && 'overflow-hidden'} bg-[#1C1C1C] h-screen`}>
+          <div className={`${openModal && 'overflow-hidden'} bg-[#1C1C1C] min-h-screen`}>
                     <Header/>
                     <div className="flex text-4xl font-medium">
                         <SideBar/>    
@@ -44,7 +135,12 @@ export default function AreasPage(){
 
                                 <div className="flex justify-between mb-7 items-end pl-8">
                                     <Titulo label={'areas'}/>
-                                    <ButtonPink label={'create'} hasIcon={true} icon={addIcon}/>
+
+                                    <div className="flex items-end gap-x-4">
+                                        <ButtonUploadFile icon={iconUpload} handleFileChange={handleFileChange}/>
+                                        <ButtonPink label={'create'} hasIcon={true} icon={addIcon}/>
+
+                                    </div>
                                 </div>
                             </div>
 
@@ -56,7 +152,7 @@ export default function AreasPage(){
                                         setOpenModal(true)
                                         }}>
                                         <p>{area.nome}</p>
-                                        <img src={iconViewMore} alt="" />
+                                        <img src={iconViewMore} alt="" width={22} />
                                     </div>
                                 ))}
                             </div>
@@ -64,7 +160,7 @@ export default function AreasPage(){
                     </div>
 
                     {openModal && (
-                        <Modal ContentModal={ContentModalArea} modalProps={{name: selectedArea.nome, onClickFechar: ()=>{setOpenModal(false)}, onChangeArea: (e)=>setOnchangeArea(e.target.value) }}/>
+                        <Modal ContentModal={ContentModalArea} modalProps={{name: selectedArea.nome, onClickFechar: ()=>{setOpenModal(false)}, onChangeArea: (e)=>setOnchangeArea(e.target.value), onClickAplicar: ()=>changeNameArea(onChangeArea), onClickRemover: ()=>deleteArea() }}/>
                     )}
 
                 </div>

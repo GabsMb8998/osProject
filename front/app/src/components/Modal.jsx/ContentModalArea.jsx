@@ -1,5 +1,6 @@
 import ButtonPink from "../ButtonPink";
 import closeIcon from "../../images/icons/closeIcon.svg"
+import ButtonCinza from "../Botoes/ButtonCinza";
 
 export default function ContentModalArea({name, onClickAplicar, onClickRemover, onClickFechar, onChangeArea}){
     return(
@@ -18,8 +19,9 @@ export default function ContentModalArea({name, onClickAplicar, onClickRemover, 
                     <input type="text" className="bg-[#3A3A3A] py-4 rounded px-3 text-lg text-[#C4C4C4] font-medium" onChange={onChangeArea}/>
                 </div>
 
-                <div className=" flex justify-end">
-                    <ButtonPink label={'aplicar'} hasIcon={false} />
+                <div className=" flex justify-end gap-x-5">
+                    <ButtonCinza label={'remover'} onClick={()=>onClickRemover()}/>
+                    <ButtonPink label={'aplicar'} hasIcon={false} onClick={()=>onClickAplicar()}/>
                 </div>
             </div>
 
