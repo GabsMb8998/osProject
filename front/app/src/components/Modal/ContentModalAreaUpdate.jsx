@@ -4,7 +4,7 @@ import ButtonCinza from "../Botoes/ButtonCinza";
 
 export default function ContentModalArea({name, onClickAplicar, onClickRemover, onClickFechar, onChangeArea}){
     return(
-        <div className="w-[50%] h-[45%] bg-[#242424] border border-[#474747] rounded-xl">
+        <div className="w-[50%] h-[36%] bg-[#242424] border border-[#474747] rounded-xl">
             <div className="border border-[#3B3B3B]">
                 <div className="my-6 mx-10 flex justify-between items-center">
                     <p className="text-[#D3D3D3] font-medium text-2xl">{name}</p>
@@ -20,8 +20,8 @@ export default function ContentModalArea({name, onClickAplicar, onClickRemover, 
                 </div>
 
                 <div className=" flex justify-end gap-x-5">
-                    <ButtonCinza label={'remover'} onClick={()=>onClickRemover()}/>
-                    <ButtonPink label={'aplicar'} hasIcon={false} onClick={()=>onClickAplicar()}/>
+                    <ButtonCinza label={'remover'} onClick={()=>onClickRemover()} />
+                    <ButtonPink label={'aplicar'} hasIcon={false} onClick={()=>onClickAplicar()} />
                 </div>
             </div>
 

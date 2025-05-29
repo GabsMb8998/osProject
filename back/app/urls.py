@@ -27,7 +27,9 @@ from app.api.viewsets import (
     PatchOrdemDeServico,
     DeleteOrdemDeServico,
 
-    UploadExcelView
+    UploadExcelView,
+
+    FuncionarioByNameAndSn
 
     )
 
@@ -38,10 +40,10 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     
-    path('api/gestores/get', GetFuncionarios.as_view()),    
-    path('api/gestores/post', PostFuncionario.as_view()),    
-    path('api/gestores/patch', PatchFuncionario.as_view()),    
-    path('api/gestores/delete', DeleteFuncionario.as_view()),   
+    path('api/funcionario/get', GetFuncionarios.as_view()),    
+    path('api/funcionario/post', PostFuncionario.as_view()),    
+    path('api/funcionario/patch', PatchFuncionario.as_view()),    
+    path('api/funcionario/delete', DeleteFuncionario.as_view()),   
 
     path('api/patrimonios/get', GetPatrimonios.as_view()),    
     path('api/patrimonios/post', PostPatrimonios.as_view()),    
@@ -64,9 +66,12 @@ urlpatterns = [
     path('api/ordemServico/delete', DeleteOrdemDeServico.as_view()),  
 
 
-    path('api/upload/areas', UploadExcelView.as_view()),  
+    path('api/upload', UploadExcelView.as_view()),  
 
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+
+    path('api/filtros/funcionario/', FuncionarioByNameAndSn.as_view()),
    
 ]

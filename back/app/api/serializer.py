@@ -13,6 +13,8 @@ class AmbientesSerializer (serializers.ModelSerializer):
         fields = '__all__'
 
 class FuncionariosSerializer (serializers.ModelSerializer):
+    area_nome = serializers.CharField(source='area.nome', read_only=True)
+    
     class Meta:
         model = Funcionarios
         fields = '__all__'

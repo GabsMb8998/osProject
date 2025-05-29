@@ -10,6 +10,8 @@ import pandas as pd
 from ..models import Patrimonios, Ambientes, Area, OrdemDeServico, Funcionarios
 from .serializer import FuncionariosSerializer, PatrimoniosSerializer, AmbientesSerializer, AreaSerializer, OrdemServicoSerializer, CsvSerializer
 
+from .filters import FiltroFuncionarioPorNomeESn
+
 # CRUD GESTORES ============================================================================
 class GetFuncionarios(APIView):
 
@@ -253,35 +255,35 @@ class UploadExcelView(APIView):
         for index, row in df.iterrows():
             print(row) 
 
-            if table == 'area':
-                area = {
-                    'nome' : row.get('area'),
-                }
+        #     if table == 'area':
+        #         area = {
+        #             'nome' : row.get('area'),
+        #         }
 
-                serializer = AreaSerializer(data=area)
-                if serializer.is_valid():
-                    serializer.save()
+        #         serializer = AreaSerializer(data=area)
+        #         if serializer.is_valid():
+        #             serializer.save()
 
-        return Response(status=status.HTTP_201_CREATED)
+        # return Response(status=status.HTTP_201_CREATED)
                     
             # if table == 'patrimonio':
 
-        #     area_nome = row.get('area')
-        #     area_obj = Area.objects.get(nome=area_nome)
+            area_nome = row.get('area')
+            area_obj = Area.objects.filter(nome=area_nome).first()
 
-        #     funcionarios = {
-        #         'sn' : row.get('sn'),
-        #         'nome' : row.get('nome'),
-        #         'email' : row.get('email'),
-        #         'cargo' : row.get('cargo'),
-        #         'area' : area_obj.id
-        #         }
+            funcionarios = {
+                'sn' : row.get('sn'),
+                'nome' : row.get('nome'),
+                'email' : row.get('email'),
+                'cargo' : row.get('cargo'),
+                'area' : area_obj.id
+                }
 
-        #     serializer = FuncionariosSerializer(data=funcionarios)
-        #     if serializer.is_valid():
-        #         serializer.save()
+            serializer = FuncionariosSerializer(data=funcionarios)
+            if serializer.is_valid():
+                serializer.save()
 
-        # return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_201_CREATED)
                 
             # if table == 'patrimonio':
 
@@ -325,4 +327,13 @@ class UploadExcelView(APIView):
 
         # return Response(status=status.HTTP_201_CREATED)
                 
-                
+
+#FILTROS
+
+class FuncionarioByNameAndSn(APIView):
+
+    def get(self,request):
+
+        filter = FiltroFuncionarioPorNomeESn(request.GET, queryset=Funcionarios.objects.all())
+        serializer = FuncionariosSerializer(filter.qs, many=True)
+        return Response(serializer.data)

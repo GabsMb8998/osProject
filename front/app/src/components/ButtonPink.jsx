@@ -1,4 +1,4 @@
-    export default function ButtonPink({label, hasIcon, icon, width=32, onClick=()=>{}}){
+    export default function ButtonPink({label, hasIcon, icon, width=32, height=10,onClick=()=>{}}){
         return(
 
             <div>
@@ -10,7 +10,7 @@
         
                 ): (
         
-                 <button onClick={()=>onClick()} className= {`bg-linear-to-r from-[#BE9CF1] to-[#F8CEFF] text-[#2B2B2B] text-center text-lg font-bold rounded-[6px] w-${width} h-10 `}>{label}</button>
+                 <button onClick={()=>onClick()} className= {`bg-linear-to-r from-[#BE9CF1] to-[#F8CEFF] text-[#2B2B2B] text-center text-lg font-bold rounded-[6px] w-${width} h-${height} `}>{label}</button>
                         )
                     }
                     </div>

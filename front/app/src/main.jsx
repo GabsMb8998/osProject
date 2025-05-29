@@ -10,6 +10,7 @@ import Home from './pages/Home.jsx'
 import OrderServicesPage from './pages/OrderServicesPage.jsx'
 import AreasPage from './pages/Areaspage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
+import FuncionariosPage from './pages/FuncionariosPage.jsx';
 // import { StrictMode } from 'react'
 
 const router = createBrowserRouter([
@@ -28,6 +29,9 @@ const router = createBrowserRouter([
 
     path: "/areas",
     element: <AreasPage/>
+  },{
+    path: "/funcionarios",
+    element: <FuncionariosPage/>
   }
 
 ])
