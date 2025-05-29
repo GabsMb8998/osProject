@@ -9,12 +9,17 @@ import { BrowserRouter } from "react-router";
 import Home from './pages/Home.jsx'
 import OrderServicesPage from './pages/OrderServicesPage.jsx'
 import AreasPage from './pages/Areaspage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
 // import { StrictMode } from 'react'
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>
+    element: <LoginPage/>
+  },
+  {
+    path: "/home",
+    element: <Home/>
   },
   {
     path: "/orderServices",
