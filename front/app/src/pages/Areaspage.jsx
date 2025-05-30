@@ -86,7 +86,7 @@ export default function AreasPage(){
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.parse({
+                body: JSON.stringify({
                     nome: newName,
              
                 })

@@ -11,6 +11,7 @@ import OrderServicesPage from './pages/OrderServicesPage.jsx'
 import AreasPage from './pages/Areaspage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import FuncionariosPage from './pages/FuncionariosPage.jsx';
+import AmbientePage from './pages/AmbientePage.jsx';
 // import { StrictMode } from 'react'
 
 const router = createBrowserRouter([
@@ -32,6 +33,9 @@ const router = createBrowserRouter([
   },{
     path: "/funcionarios",
     element: <FuncionariosPage/>
+  },{
+    path: "/ambientes",
+    element: <AmbientePage/>
   }
 
 ])

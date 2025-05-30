@@ -42,8 +42,8 @@ urlpatterns = [
     
     path('api/funcionario/get', GetFuncionarios.as_view()),    
     path('api/funcionario/post', PostFuncionario.as_view()),    
-    path('api/funcionario/patch', PatchFuncionario.as_view()),    
-    path('api/funcionario/delete', DeleteFuncionario.as_view()),   
+    path('api/funcionario/patch/<int:pk>', PatchFuncionario.as_view()),    
+    path('api/funcionario/delete/<int:pk>', DeleteFuncionario.as_view()),   
 
     path('api/patrimonios/get', GetPatrimonios.as_view()),    
     path('api/patrimonios/post', PostPatrimonios.as_view()),    

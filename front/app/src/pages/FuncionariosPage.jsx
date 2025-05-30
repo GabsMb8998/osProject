@@ -12,6 +12,9 @@ import { useEffect, useState } from "react";
 import InputPesquisa from "../components/InputPesquisa";
 import ModalOficial from "../components/Modal/ModalOficial";
 import ContentModalFuncionarioGet from "../components/Modal/Funcionario/ContentModalFuncionarioGet";
+import ContentModalFuncionario from "../components/Modal/Funcionario/ContentModalFuncionarioUpdate";
+import ContentModalFuncionarioUpdate from "../components/Modal/Funcionario/ContentModalFuncionarioUpdate";
+import ContentModalFuncionarioCreate from "../components/Modal/Funcionario/ContentModalFuncionarioCreate";
 
 export default function FuncionariosPage(){
 
@@ -20,9 +23,17 @@ export default function FuncionariosPage(){
 
     const [openModalGetFuncionario, setOpenModalGetFuncionario] = useState('')
     const [openModalUpdateFuncionario, setOpenModalUpdateFuncionario] = useState('')
+    const [openModalCreateFuncionario, setOpenModalCreateFuncionario] = useState('')
 
     const [selectedFuncionario, setSelectedFuncionario] = useState([])
 
+    const [OnChangeNome, setOnchangeNome] = useState('')
+    const [OnChangeEmail, setOnchangeEmail] = useState('')
+    const [OnChangeArea, setOnchangeArea] = useState('')
+    const [OnChangeCargo, setOnchangeCargo] = useState('')
+    const [OnChangeSn, setOnchangeSn] = useState('')
+    
+  
     
     useEffect(() => {
         if (openModalGetFuncionario || openModalUpdateFuncionario) {
@@ -59,22 +70,68 @@ export default function FuncionariosPage(){
         })
     }
 
-    console.log(funcionariosData.map(funcionario=>{
-        console.log(funcionario)
-    }))
+    function deleteFuncionario(){
+        fetch( `http://127.0.0.1:8000/api/funcionario/delete/${selectedFuncionario.id}`, {
+            method: "DELETE"
+        }).then(response => { 
+            if(!response.ok){
+                console.log('nao foi possivel deletar o funcionário')
+            }
+            getFuncionarios()
+            setOpenModalUpdateFuncionario(false)
+            console.log('funcionario deletado com sucesso')
+        })
+    }
 
-    useEffect(()=>{
-        getFuncionarios()
-    },[])
+    function atualizarFuncionario(){
+
+        console.log(OnChangeNome, 'onchange nome')
+
+        const dadosAtualizarFuncinario = {}
+
+        if (OnChangeNome) {
+            dadosAtualizarFuncinario.nome = OnChangeNome
+        }
+        if (OnChangeEmail) {
+            dadosAtualizarFuncinario.email = OnChangeEmail
+        }
+        if (OnChangeArea) {
+            dadosAtualizarFuncinario.area = OnChangeArea
+        }
+        if (OnChangeCargo) {
+            dadosAtualizarFuncinario.cargo = OnChangeCargo
+        }
+        if (OnChangeSn) {
+            dadosAtualizarFuncinario.sn = OnChangeSn
+        }
+
+        
 
 
-     function uploadExcel(){
+        fetch(`http://127.0.0.1:8000/api/funcionario/patch/${selectedFuncionario.id}`, {
+            method: 'PATCH',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dadosAtualizarFuncinario)
+        }).then(response=>{
+            if (!response.ok){
+                console.log('deu erradooo')
+            }
+            console.log('deu certo :)')
+            getFuncionarios()
+            setOpenModalUpdateFuncionario(false)
+            
+        })
+    }
     
+    function uploadExcel(){
+        
         const formData = new FormData()
-
+        
         formData.append("file", file)
         formData.append("table", "area")
-
+        
         fetch('http://127.0.0.1:8000/api/upload/areas', {
             method: "POST", 
             body: formData
@@ -85,13 +142,23 @@ export default function FuncionariosPage(){
             console.log("upload realizado com sucesso")
             getAreas()
         })
-
+        
     }
     
     const  handleFileChange = (e) =>{
         setFile(e.target.files[0])
     }
-
+    
+    useEffect(()=>{
+        getFuncionarios()
+    },[])
+    
+    useEffect(()=>{
+        if (openModalUpdateFuncionario){
+            setOpenModalGetFuncionario(false)
+        }
+        console.log('use effect ativadp')
+    }, [openModalUpdateFuncionario])
 
     return (
         <div className={`${openModalGetFuncionario || openModalUpdateFuncionario && 'overflow-hidden'}  bg-[#1C1C1C] min-h-screen w-full`}>
@@ -108,12 +175,11 @@ export default function FuncionariosPage(){
                                 <div className="w-full mr-28">
                                     <Titulo label={'Funcionários'}/>
                                     <InputPesquisa onChangeSearch={(e)=>setOnchangeSearch(e.target.value)} getFiltros={()=>getFiltrosFuncionario()}/>
-
                                 </div>
                         
                                 <div className="flex items-end gap-x-4">
                                     <ButtonUploadFile icon={iconUpload} handleFileChange={handleFileChange}/>
-                                    <ButtonPink label={'create'} hasIcon={true} icon={addIcon} onClick={()=>setOpenModalCreate(true)}/>
+                                    <ButtonPink label={'create'} hasIcon={true} icon={addIcon} onClick={()=>setOpenModalCreateFuncionario(true)}/>
                                 </div>
                             </div>
                         </div>
@@ -136,7 +202,12 @@ export default function FuncionariosPage(){
 
                                             <div className="flex justify-between items-center" >
                                                 <p className=" text-xl">area: {funcionario.area_nome}</p>
-                                                <img src={iconViewMore} alt="" width={24} />
+                                                <img src={iconViewMore} alt="" width={24} onClick={()=>{
+                                                    setOpenModalUpdateFuncionario(true)
+        
+                                                }
+
+                                                    }/>
                                             </div>
                                         </div>
                                     </div>
@@ -148,10 +219,24 @@ export default function FuncionariosPage(){
             
             {openModalGetFuncionario ? (
                 <ModalOficial ContentModal={ContentModalFuncionarioGet} modalProps={{onClickFechar: ()=>setOpenModalGetFuncionario(false), selectedFuncionario:selectedFuncionario} }/>
-            ): openModalUpdateFuncionario && (
+            ): openModalUpdateFuncionario ? (
                 <div>
-
+                <ModalOficial ContentModal={ContentModalFuncionarioUpdate} 
+                modalProps={{
+                    onClickFechar: ()=>setOpenModalUpdateFuncionario(false),
+                    selectedFuncionario:selectedFuncionario, 
+                    onClickRemover: ()=> deleteFuncionario(), 
+                    onClickAtualizar: ()=> atualizarFuncionario(),
+                    onChangeNome: (e)=>setOnchangeNome(e.target.value),
+                    onChangeEmail: (e)=>setOnchangeEmail(e.target.value),
+                    onChangeArea: (e)=>setOnchangeArea(e.target.value),
+                    onChangeCargo: (e)=>setOnchangeCargo(e.target.value),
+                    onChangeSn: (e)=>setOnchangeSn(e.target.value)
+                    
+                    }}/>
                 </div>
+            ): openModalCreateFuncionario && (
+                <ModalOficial ContentModal={ContentModalFuncionarioCreate} modalProps={{onClickFechar: ()=>setOpenModalCreateFuncionario(false)}}/>
             )}
 
         </div>
