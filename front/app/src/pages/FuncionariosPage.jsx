@@ -144,6 +144,10 @@ export default function FuncionariosPage(){
         })
         
     }
+
+    function criarFuncionario(){
+        fetch('http://127.0.0.1:8000/api/upload/areas')
+    }
     
     const  handleFileChange = (e) =>{
         setFile(e.target.files[0])

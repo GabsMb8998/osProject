@@ -1,6 +1,21 @@
+import ButtonPink from "../components/ButtonPink";
+import ButtonUploadFile from "../components/ButtonUploadFile";
+import Header from "../components/Header";
+import InputPesquisa from "../components/InputPesquisa";
+import SideBar from "../components/sidebar/Sidebar";
+import Titulo from "../components/Titulo";
+
+// images 
+import iconUpload from "../images/icons/uploadIcon.svg"
+import addIcon from "../images/icons/addIcon.svg"
+
 export default function AmbientePage(){
+
+     const  handleFileChange = (e) =>{
+        setFile(e.target.files[0])
+    }
     return(
-         <div className={`${openModalGetFuncionario || openModalUpdateFuncionario && 'overflow-hidden'}  bg-[#1C1C1C] min-h-screen w-full`}>
+         <div className={`${'overflow-hidden'}  bg-[#1C1C1C] min-h-screen w-full`}>
                     <Header/>
                     <div className="flex text-4xl font-medium">
                         <SideBar/>
@@ -12,19 +27,18 @@ export default function AmbientePage(){
                                     <div className="flex justify-between mb-7 items-end ">
         
                                         <div className="w-full mr-28">
-                                            <Titulo label={'Funcionários'}/>
-                                            <InputPesquisa onChangeSearch={(e)=>setOnchangeSearch(e.target.value)} getFiltros={()=>getFiltrosFuncionario()}/>
+                                            <Titulo label={'Ambientes'}/>
                                         </div>
                                 
                                         <div className="flex items-end gap-x-4">
                                             <ButtonUploadFile icon={iconUpload} handleFileChange={handleFileChange}/>
-                                            <ButtonPink label={'create'} hasIcon={true} icon={addIcon} onClick={()=>setOpenModalCreateFuncionario(true)}/>
+                                            <ButtonPink label={'create'} hasIcon={true} icon={addIcon} onClick={()=>{}}/>
                                         </div>
                                     </div>
                                 </div>
         
                                 <div>
-                                    {funcionariosData.map((funcionario, index)=>(
+                                    {/* {funcionariosData.map((funcionario, index)=>(
                                         <div className=" py-9 border-b border-b-[#3B3B3B]" onClick={
                                             ()=>{
                                                 setOpenModalGetFuncionario(true)
@@ -51,7 +65,7 @@ export default function AmbientePage(){
                                                 </div>
                                             </div>
                                         </div>
-                                    ))}
+                                    ))} */}
                                 </div>
                         </section>
                     </div>

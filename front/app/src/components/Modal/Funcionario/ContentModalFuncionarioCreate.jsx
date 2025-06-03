@@ -30,9 +30,9 @@ export default function ContentModalFuncionarioCreate({onClickFechar,}){
             })
         }).then(response=>{
             if(!response.ok){
-                console.log('deu ruimmm')
+                console.log('deu ruimmm o post')
             }
-            console.log('deu certoo')
+            console.log('deu certoo o post')
         })
     }
 
