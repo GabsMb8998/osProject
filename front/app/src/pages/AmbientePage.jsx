@@ -8,12 +8,57 @@ import Titulo from "../components/Titulo";
 // images 
 import iconUpload from "../images/icons/uploadIcon.svg"
 import addIcon from "../images/icons/addIcon.svg"
+import { useEffect, useState } from "react";
 
 export default function AmbientePage(){
+
+    const [ambientesData, setAmbientesData] = useState([])
 
      const  handleFileChange = (e) =>{
         setFile(e.target.files[0])
     }
+
+    function getAmbientes(){
+        fetch('http://127.0.0.1:8000/api/ambientes/get')
+        .then(response=>{
+            if(!response.ok){
+                console.log('deu erroooo')
+            }
+            return response.json()
+        }).then(data=>{
+            setAmbientesData(data)
+            console.log(data)
+        })
+    }
+
+    useEffect(()=>{
+
+        getAmbientes()
+
+    },[])
+
+        function uploadExcel(){
+        
+        const formData = new FormData()
+        
+        formData.append("file", file)
+        formData.append("table", "area")
+        
+        fetch('http://127.0.0.1:8000/api/upload/areas', {
+            method: "POST", 
+            body: formData
+        }).then(response=>{
+            if(!response.ok){
+                throw new Error('Não foi fazer o upload do arquivo' + response.statusText);
+            }
+            console.log("upload realizado com sucesso")
+            getAreas()
+        })
+        
+    }
+
+
+    
     return(
          <div className={`${'overflow-hidden'}  bg-[#1C1C1C] min-h-screen w-full`}>
                     <Header/>
@@ -38,6 +83,20 @@ export default function AmbientePage(){
                                 </div>
         
                                 <div>
+
+                                    {
+                                        ambientesData.map((ambiente, index)=>(
+                                            <div className="py-9 border-b border-b-[#3B3B3B]" key={index}>
+                                                <h4 className="text-[#E6E6E6] font-normal text-2xl">{ambiente.descricao}</h4>
+
+                                                <div className="mt-4 text-[#C9C8C8]">
+                                                       <p className="text-xl">responsavel: {ambiente.responsavel_nome}</p>
+                                                       <p className="text-xl">sig: {ambiente.sig}</p>
+                                                    
+                                                </div>
+                                            </div>
+                                        ))
+                                    }
                                     {/* {funcionariosData.map((funcionario, index)=>(
                                         <div className=" py-9 border-b border-b-[#3B3B3B]" onClick={
                                             ()=>{

@@ -268,46 +268,50 @@ class UploadExcelView(APIView):
                     
             # if table == 'patrimonio':
 
-            area_nome = row.get('area')
-            area_obj = Area.objects.filter(nome=area_nome).first()
+        #     area_nome = row.get('area')
+        #     area_obj = Area.objects.filter(nome=area_nome).first()
 
-            funcionarios = {
-                'sn' : row.get('sn'),
-                'nome' : row.get('nome'),
-                'email' : row.get('email'),
-                'cargo' : row.get('cargo'),
-                'area' : area_obj.id
-                }
+        #     funcionarios = {
+        #         'sn' : row.get('sn'),
+        #         'nome' : row.get('nome'),
+        #         'email' : row.get('email'),
+        #         'cargo' : row.get('cargo'),
+        #         'area' : area_obj.id
+        #         }
 
-            serializer = FuncionariosSerializer(data=funcionarios)
-            if serializer.is_valid():
-                serializer.save()
+        #     serializer = FuncionariosSerializer(data=funcionarios)
+        #     if serializer.is_valid():
+        #         serializer.save()
 
-        return Response(status=status.HTTP_201_CREATED)
+        # return Response(status=status.HTTP_201_CREATED)
                 
             # if table == 'patrimonio':
 
-        #     responsavel_id = row.get('responsavel')
+            responsavel_id = row.get('responsavel')
+
+            func_obj = Funcionarios.objects.filter(id=responsavel_id)
+
+
         #     # print(f"ID do responsável recebido: {responsavel_id}")
-        #     func_obj = Funcionarios.objects.get(id=responsavel_id)
+            func_obj = Funcionarios.objects.get(id=responsavel_id)
 
-        #     ambiente = {
-        #         'sig' : row.get('sig'),
-        #         'descricao' : row.get('descricao'),
-        #         'responsavel' : func_obj.id,
-        #         }
+            ambiente = {
+                'sig' : row.get('sig'),
+                'descricao' : row.get('descricao'),
+                'responsavel' : func_obj.id,
+                }
 
-        #     # print("Dados do ambiente:", ambiente)
+            # print("Dados do ambiente:", ambiente)
 
-        #     serializer = AmbientesSerializer(data=ambiente)
-        #     if serializer.is_valid():
-        #         print(func_obj, 'testee')
-        #         serializer.save()
-        #         # print("Ambiente SALVO com ID:", amb_obj.id)
-        #     else:
-        #         print("Erro de validação:", serializer.errors)
+            serializer = AmbientesSerializer(data=ambiente)
+            if serializer.is_valid():
+                print(func_obj, 'testee')
+                serializer.save()
+                # print("Ambiente SALVO com ID:", amb_obj.id)
+            else:
+                print("Erro de validação:", serializer.errors)
 
-        # return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_201_CREATED)
 
             # if table == 'patrimonio':
 

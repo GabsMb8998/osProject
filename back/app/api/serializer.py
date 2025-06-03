@@ -8,6 +8,8 @@ class PatrimoniosSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AmbientesSerializer (serializers.ModelSerializer):
+    responsavel_nome = serializers.CharField(source='responsavel.nome', read_only=True)
+
     class Meta:
         model = Ambientes
         fields = '__all__'
