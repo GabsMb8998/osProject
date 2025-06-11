@@ -52,8 +52,8 @@ urlpatterns = [
 
     path('api/ambientes/get', GetAmbientes.as_view()),    
     path('api/ambientes/post', PostAmbientes.as_view()),    
-    path('api/ambientes/patch', PatchAmbiente.as_view()),    
-    path('api/ambientes/delete', DeleteAmbiente.as_view()),   
+    path('api/ambientes/patch/<int:pk>', PatchAmbiente.as_view()),    
+    path('api/ambientes/delete/<int:pk>', DeleteAmbiente.as_view()),   
 
     path('api/area/get', GetAreas.as_view()),    
     path('api/area/post', PostArea.as_view()),    

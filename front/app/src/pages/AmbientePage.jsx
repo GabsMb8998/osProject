@@ -9,10 +9,21 @@ import Titulo from "../components/Titulo";
 import iconUpload from "../images/icons/uploadIcon.svg"
 import addIcon from "../images/icons/addIcon.svg"
 import { useEffect, useState } from "react";
+import iconViewMore from "../images/icons/iconViewMore.svg"
+import Modal from "../components/Modal/Modal";
+import ContentModalUpdateAmbiente from "../components/Modal/Ambientes/ContentModalAmbienteUpdate";
+import ModalOficial from "../components/Modal/ModalOficial";
+import ContentModalCreateAmbiente from "../components/Modal/Ambientes/ContentModalAmbienteCreate";
+
 
 export default function AmbientePage(){
 
     const [ambientesData, setAmbientesData] = useState([])
+
+    const [openModalUpdateAmbiente, setOpenModalUpdateAmbiente] = useState(false)
+    const [openModalCreateAmbiente, setOpenModalCreateAmbiente] = useState(false)
+
+    const [selectedAmbiente, setSelectedAmbiente] = useState([])
 
      const  handleFileChange = (e) =>{
         setFile(e.target.files[0])
@@ -77,80 +88,51 @@ export default function AmbientePage(){
                                 
                                         <div className="flex items-end gap-x-4">
                                             <ButtonUploadFile icon={iconUpload} handleFileChange={handleFileChange}/>
-                                            <ButtonPink label={'create'} hasIcon={true} icon={addIcon} onClick={()=>{}}/>
+                                            <ButtonPink label={'create'} hasIcon={true} icon={addIcon} onClick={()=>{setOpenModalCreateAmbiente(true)}}/>
                                         </div>
                                     </div>
                                 </div>
         
                                 <div>
-
                                     {
                                         ambientesData.map((ambiente, index)=>(
-                                            <div className="py-9 border-b border-b-[#3B3B3B]" key={index}>
-                                                <h4 className="text-[#E6E6E6] font-normal text-2xl">{ambiente.descricao}</h4>
+                                            <div className="py-9 border-b border-b-[#3B3B3B] flex items-end justify-between" key={index} >
 
-                                                <div className="mt-4 text-[#C9C8C8]">
-                                                       <p className="text-xl">responsavel: {ambiente.responsavel_nome}</p>
-                                                       <p className="text-xl">sig: {ambiente.sig}</p>
-                                                    
-                                                </div>
-                                            </div>
-                                        ))
-                                    }
-                                    {/* {funcionariosData.map((funcionario, index)=>(
-                                        <div className=" py-9 border-b border-b-[#3B3B3B]" onClick={
-                                            ()=>{
-                                                setOpenModalGetFuncionario(true)
-                                                setSelectedFuncionario(funcionario)
-                                            }
-                                            
-                                            } key={index}>
-        
-                                            <div className="w-[60%]">
-                                                <h4 className="text-[#E6E6E6] font-normal text-3xl">{funcionario.nome}</h4>
-                                                <div className="mt-4 text-[#C9C8C8]">
-        
-                                                    <p className="text-xl">email: {funcionario.email}</p>
-        
-                                                    <div className="flex justify-between items-center" >
-                                                        <p className=" text-xl">area: {funcionario.area_nome}</p>
-                                                        <img src={iconViewMore} alt="" width={24} onClick={()=>{
-                                                            setOpenModalUpdateFuncionario(true)
-                
-                                                        }
-        
-                                                            }/>
+                                                <div className="w-[45%] flex items-end justify-between">
+                                                    <div className="">
+                                                        <h4 className="text-[#E6E6E6] font-normal text-2xl">{ambiente.descricao}</h4>
+
+                                                        <div className="mt-4 text-[#C9C8C8]">
+                                                            <p className="text-xl">responsavel: {ambiente.responsavel_nome}</p>
+                                                            <p className="text-xl">sig: {ambiente.sig}</p>
+                                                            
+                                                        </div>
                                                     </div>
+
+                                                    <div>
+                                                    <img src={iconViewMore} alt="" width={24} onClick={()=>{
+                                                        setOpenModalUpdateAmbiente(true)
+                                                        setSelectedAmbiente(ambiente)
+                                                        }}/>
+                                                    </div>
+
                                                 </div>
+
                                             </div>
-                                        </div>
-                                    ))} */}
+                                            ))
+                                    }
+          
                                 </div>
                         </section>
                     </div>
+
+                    {openModalUpdateAmbiente ? (
+                        <ModalOficial ContentModal={ContentModalUpdateAmbiente} modalProps={{onClickFechar: ()=>setOpenModalUpdateAmbiente(false), ambienteSelected: selectedAmbiente, getAmbientes: ()=>getAmbientes()}}/>
+                    ): openModalCreateAmbiente && (
+                         <ModalOficial ContentModal={ContentModalCreateAmbiente} modalProps={{onClickFechar: ()=>setOpenModalCreateAmbiente(false), getAmbientes: ()=>getAmbientes()}}/>
+                    )}
                     
-                    {/* {openModalGetFuncionario ? (
-                        <ModalOficial ContentModal={ContentModalFuncionarioGet} modalProps={{onClickFechar: ()=>setOpenModalGetFuncionario(false), selectedFuncionario:selectedFuncionario} }/>
-                    ): openModalUpdateFuncionario ? (
-                        <div>
-                        <ModalOficial ContentModal={ContentModalFuncionarioUpdate} 
-                        modalProps={{
-                            onClickFechar: ()=>setOpenModalUpdateFuncionario(false),
-                            selectedFuncionario:selectedFuncionario, 
-                            onClickRemover: ()=> deleteFuncionario(), 
-                            onClickAtualizar: ()=> atualizarFuncionario(),
-                            onChangeNome: (e)=>setOnchangeNome(e.target.value),
-                            onChangeEmail: (e)=>setOnchangeEmail(e.target.value),
-                            onChangeArea: (e)=>setOnchangeArea(e.target.value),
-                            onChangeCargo: (e)=>setOnchangeCargo(e.target.value),
-                            onChangeSn: (e)=>setOnchangeSn(e.target.value)
-                            
-                            }}/>
-                        </div>
-                    ): openModalCreateFuncionario && (
-                        <ModalOficial ContentModal={ContentModalFuncionarioCreate} modalProps={{onClickFechar: ()=>setOpenModalCreateFuncionario(false)}}/>
-                    )} */}
-        
+      
                 </div>
     )
 }

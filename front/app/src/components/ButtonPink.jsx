@@ -1,4 +1,4 @@
-    export default function ButtonPink({label, hasIcon, icon, width=32, height=10,onClick=()=>{}}){
+    export default function ButtonPink({label, hasIcon, icon, width=32, height=10, onClick=()=>{}}){
         return(
 
             <div>
