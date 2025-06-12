@@ -25,9 +25,10 @@ class Patrimonios(models.Model):
 
 class OrdemDeServico(models.Model):
     sn = models.CharField(max_length=20, unique=True)
+    titulo = models.CharField(max_length=50)
     descricao = models.CharField(max_length=200)
     abertura = DateTimeField()
-    fechamento = DateTimeField()
+    fechamento = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=40)
     patrimonio = models.ForeignKey(Patrimonios, on_delete=models.CASCADE, null=True, blank=True)
     ambiente = models.ForeignKey(Ambientes, on_delete=models.CASCADE)

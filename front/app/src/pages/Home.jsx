@@ -23,11 +23,11 @@ export default function Home(){
             <section>
                 <div className="flex gap-x-10 justify-center my-10">
                     <ContainerHome Icon={<OsIconHome/>}title={'service orders'} text={'Create new service orders for heritage items that need to be fixed'} onClick={()=>navigate('/orderServices')}/>
-                    <ContainerHome Icon={<ManagersIconHome/>}title={'employees'} text={'Manage all the managers: create, update, view, and delete them.'}/>
-                    <ContainerHome Icon={<HeritageIconHome/>}title={'heritage'} text={'Manage all the assets: create, update, view, and delete'}/>
+                    <ContainerHome Icon={<ManagersIconHome/>}title={'employees'} text={'Manage all the managers: create, update, view, and delete them.'} onClick={()=>navigate('/funcionarios')}/>
+                    <ContainerHome Icon={<HeritageIconHome/>}title={'heritage'} text={'Manage all the assets: create, update, view, and delete'} onClick={()=>navigate('/patrimonios')}/>
                 </div>
                 <div className="flex gap-x-10 justify-center">
-                    <ContainerHome Icon={<SpacesIconHome/>}title={'spaces'} text={'Manage all the spaces: create, update, view, and delete.'}/>
+                    <ContainerHome Icon={<SpacesIconHome/>}title={'spaces'} text={'Manage all the spaces: create, update, view, and delete.'} onClick={()=>navigate('/ambientes')}/>
                     <ContainerHome Icon={<OsIconHome/>}title={'areas'} text={'Manage all the managers: create, update, view, and delete them.'} onClick={()=>navigate('/areas')}/>
 
                 </div>

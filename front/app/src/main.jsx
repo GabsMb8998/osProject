@@ -12,6 +12,7 @@ import AreasPage from './pages/Areaspage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import FuncionariosPage from './pages/FuncionariosPage.jsx';
 import AmbientePage from './pages/AmbientePage.jsx';
+import PatrimoniosPage from './pages/PatrimoniosPage.jsx';
 
 // import { StrictMode } from 'react'
 
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
   },{
     path: "/ambientes",
     element: <AmbientePage/>
+  }
+  ,{
+    path: "/patrimonios",
+    element: <PatrimoniosPage/>
   }
 
 ])

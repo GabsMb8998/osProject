@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from ..models import Patrimonios, Ambientes, Area, OrdemDeServico, Funcionarios
 
 class PatrimoniosSerializer(serializers.ModelSerializer):
+    localizacao_nome = serializers.CharField(source='localizacao.descricao', read_only=True)
+
     class Meta:
         model = Patrimonios
         fields = '__all__'

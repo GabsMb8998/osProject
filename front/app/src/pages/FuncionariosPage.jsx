@@ -36,13 +36,13 @@ export default function FuncionariosPage(){
   
     
     useEffect(() => {
-        if (openModalGetFuncionario || openModalUpdateFuncionario) {
+        if (openModalGetFuncionario || openModalUpdateFuncionario || openModalCreateFuncionario) {
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'auto';
         }
 
-        }, [openModalGetFuncionario, openModalUpdateFuncionario])
+        }, [openModalGetFuncionario, openModalUpdateFuncionario, openModalCreateFuncionario])
 
     function getFiltrosFuncionario(){
         const verifyHasNumber= /\d/.test(onChangeSearch)

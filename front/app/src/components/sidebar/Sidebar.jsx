@@ -1,35 +1,61 @@
-import { useState } from "react"
-import HomeIcon from "../../images/icons/HomeIcon"
-import ItemSideBar from "./ItemSideBar"
-import '../../index.css'
-import OsIcon from "../../images/icons/OsIcon"
-import PatrimoniosIcon from "../../images/icons/PatrimoniosIcon"
-import GerenteICon from "../../images/icons/GerenteIcon"
+import { useLocation, useNavigate } from 'react-router-dom';
+import HomeIcon from "../../images/icons/HomeIcon";
+import ItemSideBar from "./ItemSideBar";
+import OsIcon from "../../images/icons/OsIcon";
+import PatrimoniosIcon from "../../images/icons/PatrimoniosIcon";
+import GerenteICon from "../../images/icons/GerenteIcon";
+import '../../index.css';
+import { useState } from 'react';
 
-export default function SideBar(){
+export default function SideBar() {
+    const [open, setOpen] = useState(true);
+    const location = useLocation();
+    const navigate = useNavigate();
 
-    const [open, setOpen] = useState(true)
-
-    const [selected, setSelected] = useState('home')
-
-    function changeSelected(selected){
-        setSelected(selected)
+    function isSelected(path) {
+        return location.pathname === path;
     }
 
-    // const [teste, setTeste] = useState([1,2,3])
-    // console.log(teste.length)
-    return(
-        <aside className={`${open ? ' w-[330px] ':'w-24'} h-screen fixed`}>
-
+    return (
+        <aside className={`${open ? 'w-[330px]' : 'w-24'} h-screen fixed`}>
             <div className="mx-10 py-8 flex flex-col gap-y-6">
-                <ItemSideBar icon={<HomeIcon width={22} selected={selected==='home' } />} selected={selected==='home'} label={'home'} onClick={()=>changeSelected('home')}/>
-                <ItemSideBar icon={<OsIcon selected={selected==='os'} />} selected={selected==='os'} label={'os'} onClick={()=>changeSelected('os')}/>
-                <ItemSideBar icon={<PatrimoniosIcon selected={selected==='patrimonios'} width={26} />} selected={selected==='patrimonios'} label={'patrimonios'} onClick={()=>changeSelected('patrimonios')}/>
-                <ItemSideBar icon={<GerenteICon selected={selected==='gerentes'} width={22} />} selected={selected==='gerentes'} label={'gerentes'} onClick={()=>changeSelected('gerentes')}/>
-                <ItemSideBar icon={<HomeIcon selected={selected==='manutentores'} />} selected={selected==='manutentores'} label={'manutentores'} onClick={()=>changeSelected('manutentores')}/>
-                <ItemSideBar icon={<HomeIcon selected={selected==='ambiente'} />} selected={selected==='ambiente'} label={'ambiente'} onClick={()=>changeSelected('ambiente')}/>
-                <ItemSideBar icon={<HomeIcon selected={selected==='areas'} />} selected={selected==='areas'} label={'areas'} onClick={()=>changeSelected('areas')}/>
+                <ItemSideBar
+                    icon={<HomeIcon width={22} selected={isSelected('/home')} />}
+                    selected={isSelected('/home')}
+                    label="home"
+                    onClick={() => navigate('/home')}
+                />
+                <ItemSideBar
+                    icon={<OsIcon selected={isSelected('/orderServices')} />}
+                    selected={isSelected('/orderServices')}
+                    label="os"
+                    onClick={() => navigate('/orderServices')}
+                />
+                <ItemSideBar
+                    icon={<PatrimoniosIcon width={26} selected={isSelected('/patrimonios')} />}
+                    selected={isSelected('/patrimonios')}
+                    label="patrimonios"
+                    onClick={() => navigate('/patrimonios')}
+                />
+                <ItemSideBar
+                    icon={<HomeIcon selected={isSelected('/funcionarios')} />}
+                    selected={isSelected('/funcionarios')}
+                    label="funcionarios"
+                    onClick={() => navigate('/funcionarios')}
+                />
+                <ItemSideBar
+                    icon={<HomeIcon selected={isSelected('/ambientes')} />}
+                    selected={isSelected('/ambientes')}
+                    label="ambientes"
+                    onClick={() => navigate('/ambientes')}
+                />
+                <ItemSideBar
+                    icon={<HomeIcon selected={isSelected('/areas')} />}
+                    selected={isSelected('/areas')}
+                    label="areas"
+                    onClick={() => navigate('/areas')}
+                />
             </div>
         </aside>
-    )
+    );
 }

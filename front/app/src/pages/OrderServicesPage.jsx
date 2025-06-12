@@ -11,9 +11,30 @@ import uploadIcon from "../images/icons/uploadIcon.svg"
 import expandedIcon from "../images/icons/expandedIcon.svg"
 import Titulo from "../components/Titulo";
 
+import ModalOficial from "../components/Modal/ModalOficial";
+import { useEffect, useState } from "react";
+import ContentModalCreateOrdemServico from "../components/Modal/Os/ContentModalCreateOrdemServico";
 
 
 export default function OrderServicesPage({}){
+
+    const [patrimoniosData, setPatrimoniosData] = useState([])
+    const [onChangeSearch, setOnchangeSearch] = useState('')
+
+    const [openModalUpdateOrdemServico, setOpenModalUpdateOrdemServico] = useState('')
+    const [openModalCreateOrdermServico, setOpenModalCreateOrdemServico] = useState('')
+
+    // useEffect(() => {
+    //     if (openModalCreateOrdermServico) {
+    //         document.body.style.overflow = 'hidden';
+    //     } else {
+    //         document.body.style.overflow = 'auto';
+    //     }
+    //     }, [openModalCreateOrdermServico])
+
+    
+
+
     return(
 
         <div className="bg-[#1C1C1C] h-screen">
@@ -35,7 +56,7 @@ export default function OrderServicesPage({}){
                             {/* botoes upload e criar os  */}
                             <div className="flex items-end gap-x-4">   
                                 <ButtonUploadFile icon={uploadIcon}/>
-                                <ButtonPink label="create" hasIcon={true} icon={addIcon}/>
+                                <ButtonPink label="create" hasIcon={true} icon={addIcon} onClick={()=>setOpenModalCreateOrdemServico(true)}/>
                             </div>
                         </div>
                     </div>
@@ -43,7 +64,7 @@ export default function OrderServicesPage({}){
 
                     <div className="w-full border-b border-b-[#3B3B3B] py-6">
 
-                        <div className="w-[54%]">
+                        {/* <div className="w-[54%]">
                             <div>
                                 <h4 className="text-4xl text-white">Formatação de Computador</h4>
                             </div>
@@ -70,10 +91,18 @@ export default function OrderServicesPage({}){
                                 </div>
                             </div>
 
-                        </div>
+                        </div> */}
+
+
                     </div>
                 </section>
             </div>
+            {
+                openModalCreateOrdermServico && (
+                    <ModalOficial ContentModal={ContentModalCreateOrdemServico} modalProps={{onClickFechar: ()=>setOpenModalCreateOrdemServico(false) }} overflow="overflow-y-auto"/>
+                )
+            }
+    
         </div>
     )
 }

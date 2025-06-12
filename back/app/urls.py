@@ -47,8 +47,8 @@ urlpatterns = [
 
     path('api/patrimonios/get', GetPatrimonios.as_view()),    
     path('api/patrimonios/post', PostPatrimonios.as_view()),    
-    path('api/patrimonios/patch', PatchPatrimonios.as_view()),    
-    path('api/patrimonios/delete', DeletePatrimonio.as_view()),   
+    path('api/patrimonios/patch/<int:pk>', PatchPatrimonios.as_view()),    
+    path('api/patrimonios/delete/<int:pk>', DeletePatrimonio.as_view()),   
 
     path('api/ambientes/get', GetAmbientes.as_view()),    
     path('api/ambientes/post', PostAmbientes.as_view()),    
@@ -62,8 +62,8 @@ urlpatterns = [
 
     path('api/ordemServico/get', GetOrdensDeServico.as_view()),    
     path('api/ordemServico/post', PostOrdensDeServico.as_view()),    
-    path('api/ordemServico/patch', PatchOrdemDeServico.as_view()),    
-    path('api/ordemServico/delete', DeleteOrdemDeServico.as_view()),  
+    path('api/ordemServico/patch/<int:pk>', PatchOrdemDeServico.as_view()),    
+    path('api/ordemServico/delete/<int:pk>', DeleteOrdemDeServico.as_view()),  
 
 
     path('api/upload', UploadExcelView.as_view()),  

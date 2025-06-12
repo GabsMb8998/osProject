@@ -9,6 +9,9 @@ import Titulo from "../components/Titulo";
 import ButtonPink from "../components/ButtonPink";
 import ButtonUploadFile from "../components/ButtonUploadFile";
 import { useEffect, useState } from "react";
+import ContentModalUpdatePatrimonio from "../components/Modal/Patrimonio/ContentModalUpdatePatrimonio";
+import ModalOficial from "../components/Modal/ModalOficial";
+import ContentModalCreatePatrimonio from "../components/Modal/Patrimonio/ContentModalCreatePatrimonio";
 
 
 export default function PatrimoniosPage(){
@@ -16,28 +19,21 @@ export default function PatrimoniosPage(){
     const [patrimoniosData, setPatrimoniosData] = useState([])
     const [onChangeSearch, setOnchangeSearch] = useState('')
 
-    const [openModalGetFuncionario, setOpenModalGetFuncionario] = useState('')
-    const [openModalUpdateFuncionario, setOpenModalUpdateFuncionario] = useState('')
-    const [openModalCreateFuncionario, setOpenModalCreateFuncionario] = useState('')
+    const [openModalUpdatePatrimonio, setOpenModalUpdatePatrimonio] = useState('')
+    const [openModalCreatePatrimonio, setOpenModalCreatePatrimonio] = useState('')
 
     const [selectedPatrimonio, setSelectedPatrimonio] = useState([])
 
-    const [OnChangeNome, setOnchangeNome] = useState('')
-    const [OnChangeEmail, setOnchangeEmail] = useState('')
-    const [OnChangeArea, setOnchangeArea] = useState('')
-    const [OnChangeCargo, setOnchangeCargo] = useState('')
-    const [OnChangeSn, setOnchangeSn] = useState('')
-    
+    const [file, setFile ] = useState()
   
     
     useEffect(() => {
-        if (openModalGetFuncionario || openModalUpdateFuncionario) {
+        if (openModalUpdatePatrimonio || openModalCreatePatrimonio) {
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'auto';
         }
-
-        }, [openModalGetFuncionario, openModalUpdateFuncionario])
+        }, [openModalCreatePatrimonio, openModalUpdatePatrimonio])
 
 
     function getPatrimonios(){
@@ -48,9 +44,14 @@ export default function PatrimoniosPage(){
             }
             return response.json()
         }).then(data=>{
-            setFuncionariosData(data)
+            console.log(data)
+            setPatrimoniosData(data)
         })
     }
+
+    useEffect(()=>{
+        getPatrimonios()
+    }, [])
 
     // function deleteFuncionario(){
     //     fetch( `http://127.0.0.1:8000/api/funcionario/delete/${selectedFuncionario.id}`, {
@@ -127,8 +128,22 @@ export default function PatrimoniosPage(){
         
     }
 
+    const  handleFileChange = (e) =>{
+        setFile(e.target.files[0])
+    }
+
+    useEffect(()=>{
+        if (file){
+        uploadExcel()
+            
+        }
+    }, [file])
+
+    console.log(openModalCreatePatrimonio, 'modal')
+    console.log(selectedPatrimonio, 'patrimonio selecionado')
+
     return (
-        <div className={`${openModalGetFuncionario || openModalUpdateFuncionario && 'overflow-hidden'}  bg-[#1C1C1C] min-h-screen w-full`}>
+        <div className={`${openModalUpdatePatrimonio || openModalCreatePatrimonio && 'overflow-hidden'}  bg-[#1C1C1C] min-h-screen w-full`}>
             <Header/>
             <div className="flex text-4xl font-medium">
                 <SideBar/>
@@ -140,38 +155,31 @@ export default function PatrimoniosPage(){
                             <div className="flex justify-between mb-7 items-end ">
 
                                 <div className="w-full mr-28">
-                                    <Titulo label={'Funcionários'}/>
-                                    <InputPesquisa onChangeSearch={(e)=>setOnchangeSearch(e.target.value)} getFiltros={()=>getFiltrosFuncionario()}/>
+                                    <Titulo label={'Patrimônios'}/>
+                                    {/* <InputPesquisa onChangeSearch={(e)=>setOnchangeSearch(e.target.value)} getFiltros={()=>getFiltrosFuncionario()}/> */}
                                 </div>
                         
                                 <div className="flex items-end gap-x-4">
                                     <ButtonUploadFile icon={iconUpload} handleFileChange={handleFileChange}/>
-                                    <ButtonPink label={'create'} hasIcon={true} icon={addIcon} onClick={()=>setOpenModalCreateFuncionario(true)}/>
+                                    <ButtonPink label={'create'} hasIcon={true} icon={addIcon} onClick={()=>setOpenModalCreatePatrimonio(true)}/>
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            {funcionariosData.map((funcionario, index)=>(
-                                <div className=" py-9 border-b border-b-[#3B3B3B]" onClick={
-                                    ()=>{
-                                        setOpenModalGetFuncionario(true)
-                                        setSelectedFuncionario(funcionario)
-                                    }
-                                    
-                                    } key={index}>
-
+                            {patrimoniosData.map((patrimonio, index)=>(
+                                <div className=" py-9 border-b border-b-[#3B3B3B]" key={index}>
                                     <div className="w-[60%]">
-                                        <h4 className="text-[#E6E6E6] font-normal text-3xl">{funcionario.nome}</h4>
+                                        <h4 className="text-[#E6E6E6] font-normal text-2xl">{patrimonio.descricao}</h4>
                                         <div className="mt-4 text-[#C9C8C8]">
 
-                                            <p className="text-xl">email: {funcionario.email}</p>
+                                            <p className="text-xl">localização: {patrimonio.localizacao_nome}</p>
 
                                             <div className="flex justify-between items-center" >
-                                                <p className=" text-xl">area: {funcionario.area_nome}</p>
+                                                <p className=" text-xl">ni: {patrimonio.ni}</p>
                                                 <img src={iconViewMore} alt="" width={24} onClick={()=>{
-                                                    setOpenModalUpdateFuncionario(true)
-        
+                                                    setSelectedPatrimonio(patrimonio)
+                                                    setOpenModalUpdatePatrimonio(true)
                                                 }
 
                                                     }/>
@@ -184,28 +192,32 @@ export default function PatrimoniosPage(){
                 </section>
             </div>
             
-            {openModalGetFuncionario ? (
-                <ModalOficial ContentModal={ContentModalFuncionarioGet} modalProps={{onClickFechar: ()=>setOpenModalGetFuncionario(false), selectedFuncionario:selectedFuncionario} }/>
-            ): openModalUpdateFuncionario ? (
-                <div>
-                <ModalOficial ContentModal={ContentModalFuncionarioUpdate} 
-                modalProps={{
-                    onClickFechar: ()=>setOpenModalUpdateFuncionario(false),
-                    selectedFuncionario:selectedFuncionario, 
-                    onClickRemover: ()=> deleteFuncionario(), 
-                    onClickAtualizar: ()=> atualizarFuncionario(),
-                    onChangeNome: (e)=>setOnchangeNome(e.target.value),
-                    onChangeEmail: (e)=>setOnchangeEmail(e.target.value),
-                    onChangeArea: (e)=>setOnchangeArea(e.target.value),
-                    onChangeCargo: (e)=>setOnchangeCargo(e.target.value),
-                    onChangeSn: (e)=>setOnchangeSn(e.target.value)
+            {openModalUpdatePatrimonio ? (
+                <ModalOficial ContentModal={ContentModalUpdatePatrimonio} modalProps={{onClickFechar: ()=>setOpenModalUpdatePatrimonio(false), patrimonioSelected:selectedPatrimonio, getPatrimonios:()=>getPatrimonios()} }/>
+            ) : openModalCreatePatrimonio &&(
+                   <ModalOficial ContentModal={ContentModalCreatePatrimonio} modalProps={{onClickFechar: ()=>setOpenModalCreatePatrimonio(false), getPatrimonios:()=>getPatrimonios()} }/>
+            )
+            
+            // : openModalUpdateFuncionario ? (
+            //     <div>
+            //     <ModalOficial ContentModal={ContentModalFuncionarioUpdate} 
+            //     modalProps={{
+            //         onClickFechar: ()=>setOpenModalUpdateFuncionario(false),
+            //         selectedFuncionario:selectedFuncionario, 
+            //         onClickRemover: ()=> deleteFuncionario(), 
+            //         onClickAtualizar: ()=> atualizarFuncionario(),
+            //         onChangeNome: (e)=>setOnchangeNome(e.target.value),
+            //         onChangeEmail: (e)=>setOnchangeEmail(e.target.value),
+            //         onChangeArea: (e)=>setOnchangeArea(e.target.value),
+            //         onChangeCargo: (e)=>setOnchangeCargo(e.target.value),
+            //         onChangeSn: (e)=>setOnchangeSn(e.target.value)
                     
-                    }}/>
-                </div>
-            ): openModalCreateFuncionario && (
-                <ModalOficial ContentModal={ContentModalFuncionarioCreate} modalProps={{onClickFechar: ()=>setOpenModalCreateFuncionario(false)}}/>
-            )}
-
+            //         }}/>
+            //     </div>
+            // ): openModalUpdatePatrimonio && (
+            //     // <ModalOficial ContentModal={ContentModalFuncionarioCreate} modalProps={{onClickFechar: ()=>setOpenModalCreateFuncionario(false)}}/>
+            // )}
+        }
         </div>
     )
 }
