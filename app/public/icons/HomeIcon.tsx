@@ -1,0 +1,17 @@
+interface HomeIconProps{
+    width?: number
+    height?: number
+    selected: boolean
+}
+
+function HomeIcon({width=25, height=25, selected}:HomeIconProps){
+    return(
+
+        <svg width={width} height="31" viewBox="0 0 29 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M16.0426 0.586062C15.1375 -0.195354 13.7963 -0.195354 12.8912 0.586062L0.835759 10.9889C0.305769 11.4469 0 12.1128 0 12.8141V28.5878C0 29.9196 1.07904 31 2.41084 31H7.23376C8.56556 31 9.6446 29.9196 9.6446 28.5878V21.0102C9.6446 19.6784 10.7236 18.5994 12.0554 18.5994H16.8784C18.2102 18.5994 19.2892 19.6784 19.2892 21.0102V28.5878C19.2892 29.9196 20.3682 31 21.7 31H26.523C27.8548 31 28.9338 29.9196 28.9338 28.5878V12.8141C28.9338 12.1128 28.628 11.4469 28.098 10.9889L16.0426 0.586062Z" fill={`${selected? 'url(#paint0_linear_57_387)' : '#848484'}`}/>
+        </svg>
+
+    )
+}
+
+export {HomeIcon}
