@@ -1,7 +1,7 @@
 import axios from 'axios'
 export const fetchGetAmbientes= async ()=>{
     try {
-        const response = await axios.get('http://127.0.0.1:8000/api/ambiente/get')
+        const response = await axios.get('http://127.0.0.1:8000/api/ambientes/get')
         return response.data
     }catch (error: any){
         throw new Error (
@@ -11,9 +11,14 @@ export const fetchGetAmbientes= async ()=>{
 
 }
 
-export const fetchPostAmbientes= async (data: any) => {
+export const fetchPostAmbientes= async (sig: number, descricao: string, responsavel: number) => {
     try {
-        const response = await axios.post('http://127.0.0.1:8000/api/ambiente/post', {data})
+        // console.log(data, 'data post ambientes dentro do service')
+        const response = await axios.post('http://127.0.0.1:8000/api/ambientes/post', {
+            sig: sig,
+            descricao: descricao,
+            responsavel: responsavel
+        })
         return response
     }catch (error: any) {
         throw new Error(error)
@@ -22,7 +27,7 @@ export const fetchPostAmbientes= async (data: any) => {
 
 export const fetchPatchAmbientes =  async (data: any)=>{
     try {
-        const response = await axios.patch(`http://127.0.0.1:8000/api/ambiente/patch/${data.id}`, {data})
+        const response = await axios.patch(`http://127.0.0.1:8000/api/ambientes/patch/${data.id}`, {data})
         return response;
     } catch (error: any){
         throw new Error (error)
@@ -31,7 +36,7 @@ export const fetchPatchAmbientes =  async (data: any)=>{
 
 export const fetchDeleteAmbientes = async (id: number) => {
     try {
-        const response = await axios.delete(`http://127.0.0.1:8000/api/ambiente/patch/${id}`)
+        const response = await axios.delete(`http://127.0.0.1:8000/api/ambientes/patch/${id}`)
         return response
     } catch (error: any){
         throw new Error (error)

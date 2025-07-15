@@ -1,35 +1,39 @@
-import { fetchDeleteAreas, fetchGetAreas, fetchPostAreas } from '@/services/areaService'
+import { fetchDeleteAreas, fetchGetAreas, fetchPatchAreas, fetchPostAreas } from '@/services/areaService'
 import {create} from 'zustand'
 
 export type AreaState = {
-    id : number
+    id? : number
     nome : string
 }
 
 interface AreaStore {
     areas: AreaState[]
+    area: AreaState | null
+    selected: AreaState | null
     openModalCreate: boolean
     openModalUpdate: boolean
-    selectedArea: AreaState | null
     onChangeArea: string
     onChangeCreateArea: string
     // file: File
-    setSelectedArea: (newArea:AreaState) => void
+    setSelected: (newArea:AreaState) => void
     setOpenModalCreate: (changeModal: boolean) => void
+    setArea: (nome: string) => void
     setOpenModalUpdate: (changeModal: boolean) => void
     getArea: () => void
-    postArea: ( sig: string, descricao: string, responsavel: string ) => void
+    postArea: ( nome: string ) => void
     deleteArea: (id: number) => void
-    updateArea: () => void
+    updateArea: (area: AreaState) => void
 }
 
 const useAreaStore = create<AreaStore>((set)=>({
     areas: [],
+    area: null,
     openModalCreate: false,
     openModalUpdate: false,
     selectedArea: null,
     onChangeArea: '',
     onChangeCreateArea: '',
+    selected: null,
 
     getArea: async ()=>{
         try {
@@ -40,16 +44,22 @@ const useAreaStore = create<AreaStore>((set)=>({
         }
     },
 
-    postArea:async (sig, descricao, responsavel) => {
+    postArea:async (nome) => {
         try {
-            const response = await fetchPostAreas(sig, descricao, responsavel)
+            const response = await fetchPostAreas(nome)
             return response;
         }catch (error: any){
             throw new Error (error)
         }
     },
-    updateArea() {
-        
+
+    updateArea: async (data) => {
+        try {
+            const response = await fetchPatchAreas(data)
+            return response;
+        }catch (error: any){
+            throw new Error (error)
+        }
     },
 
     deleteArea: async (id) => {
@@ -60,14 +70,18 @@ const useAreaStore = create<AreaStore>((set)=>({
             throw new Error (error)
         }
     },
-    setSelectedArea: (newArea)=>{
-        set({selectedArea: newArea})
+    setSelected: (newArea)=>{
+        set({selected: newArea})
+    },
+
+    setArea(nome) {
+        set({area: {nome:nome}})
     },
     setOpenModalCreate(changeModal) {
-        set({openModalCreate: changeModal})
+        set({openModalCreate: !changeModal})
     },
     setOpenModalUpdate(changeModal) {
-        set({openModalUpdate: changeModal})
+        set({openModalUpdate: !changeModal})
     },
 }))
 

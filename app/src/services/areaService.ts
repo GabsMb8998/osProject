@@ -11,12 +11,10 @@ export const fetchGetAreas = async ()=>{
 
 }
 
-export const fetchPostAreas = async (sig: string, descricao : string, responsavel: string ) => {
+export const fetchPostAreas = async (nome: string) => {
     try {
         const response = await axios.post('http://127.0.0.1:8000/api/area/post', {
-            sig: sig,
-            descricao: descricao,
-            responsavel: responsavel
+            nome: nome
         })
         return response
     }catch (error: any) {
@@ -26,7 +24,8 @@ export const fetchPostAreas = async (sig: string, descricao : string, responsave
 
 export const fetchPatchAreas =  async (data: any)=>{
     try {
-        const response = await axios.patch(`http://127.0.0.1:8000/api/area/patch/${data.id}`, {data})
+        console.log(data, 'teste')
+        const response = await axios.patch(`http://127.0.0.1:8000/api/area/patch/${data.id}`, {nome: data.nome})
         return response;
     } catch (error: any){
         throw new Error (error)
@@ -35,7 +34,7 @@ export const fetchPatchAreas =  async (data: any)=>{
 
 export const fetchDeleteAreas = async (id: number) => {
     try {
-        const response = await axios.delete(`http://127.0.0.1:8000/api/area/patch/${id}`)
+        const response = await axios.delete(`http://127.0.0.1:8000/api/area/delete/${id}`)
         return response
     } catch (error: any){
         throw new Error (error)

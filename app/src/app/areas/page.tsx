@@ -1,6 +1,6 @@
 "use client"
-import { ButtonPink } from "@/components/ButtonPink"
-import { ButtonUploadFile } from "@/components/ButtonUploadFile"
+import { ButtonPink } from "@/components/Buttons/ButtonPink"
+import { ButtonUploadFile } from "@/components/Buttons/ButtonUploadFile"
 import { Header } from "@/components/Header"
 import { Title } from "@/components/Title"
 import { useAreaStore } from "@/store/areaStore"
@@ -8,31 +8,32 @@ import { useAreaStore } from "@/store/areaStore"
 import addIcon from "../../../public/icons/addIcon.svg"
 import iconViewMore from "../../../public/icons/IconViewMore.svg"
 import { useEffect } from "react"
+import SideBar from "@/components/Sidebar"
+import { Modal } from "@/components/Modal"
+import { ContentModalAreaUpdate } from "@/components/Modal/ContentModais/Areas/Update"
+import { ContentModalCreate } from "@/components/Modal/ContentModais/Areas/Post/Index"
 
 function AreasPage(){
     const {
         areas,
-        onChangeArea,
-        onChangeCreateArea,
+        selected,
         openModalCreate,
         openModalUpdate,
-        selectedArea,
+        setSelected,
         setOpenModalCreate,
         setOpenModalUpdate,
-        setSelectedArea,
         getArea
     } = useAreaStore()
 
     useEffect(()=>{
         getArea()
-    }, [areas])
-
+    }, [])
 
     return (
         <div className={`${openModalUpdate || openModalCreate && 'overflow-hidden'} bg-[#1C1C1C] min-h-screen`}>
                 <Header/>
                 <div className="flex text-4xl font-medium">
-                    {/* <SideBar/>     */}
+                    <SideBar/> 
     
                     <section className="my-10 mx-96 w-full mr-96">
                         <div className="border-b border-b-[#3B3B3B]">
@@ -41,7 +42,7 @@ function AreasPage(){
                                 <Title label={'areas'}/>
                                 <div className="flex items-end gap-x-4">
                                     {/* <ButtonUploadFile handleFileChange={handleFileChange}/> */}
-                                    <ButtonPink label={'create'} hasIcon={true} icon={addIcon} onClick={()=>setOpenModalCreate(true)}/>
+                                    <ButtonPink label={'create'} hasIcon={true} icon={addIcon} onClick={()=>setOpenModalCreate(openModalCreate)}/>
                                 </div>
                             </div>
                         </div>
@@ -50,8 +51,8 @@ function AreasPage(){
                             {areas.map((area, index)=>(
                                 <div key={index} className="bg-[#313131] text-[#C5C5C5] my-4 py-5 text-[22px] px-10 rounded font-normal flex justify-between" 
                                 onClick={()=>{
-                                    setSelectedArea(area)
-                                    setOpenModalUpdate(true)
+                                    setSelected(area)
+                                    setOpenModalUpdate(openModalUpdate)
                                     }}>
                                     <p>{area.nome}</p>
                                     <img src={iconViewMore} alt="" width={22} />
@@ -61,11 +62,11 @@ function AreasPage(){
                     </section>
                 </div>
 
-                {/* {openModalUpdate ?(
-                    <Modal ContentModal={ContentModalArea} modalProps={{name: selectedArea.nome, onClickFechar: ()=>{setOpenModalUpdate(false)}, onChangeArea: (e)=>setOnchangeArea(e.target.value), onClickAplicar: ()=>changeNameArea(onChangeArea), onClickRemover: ()=>deleteArea() }}/>
+                {openModalUpdate ? (
+                    <Modal ContentModal={ContentModalAreaUpdate}/>
                 ): openModalCreate && (
-                    <Modal ContentModal={ContentModalAreaCreate} modalProps={{onClickFechar: ()=>{setOpenModalCreate(false)}, onChangeCreateArea: (e)=>setOnChangeCreateArea(e.target.value), onClickAplicar: ()=>createArea(onChangeCreateArea)}}/>
-                )} */}
+                    <Modal ContentModal={ContentModalCreate}/>
+                )}
 
             </div>
     )

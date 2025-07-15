@@ -45,6 +45,7 @@ export default function FuncionariosPage(){
         }, [openModalGetFuncionario, openModalUpdateFuncionario, openModalCreateFuncionario])
 
     function getFiltrosFuncionario(){
+        
         const verifyHasNumber= /\d/.test(onChangeSearch)
 
         fetch(`http://127.0.0.1:8000/api/filtros/funcionario/?${verifyHasNumber ? `sn=${onChangeSearch}`: `nome=${onChangeSearch}`}`)

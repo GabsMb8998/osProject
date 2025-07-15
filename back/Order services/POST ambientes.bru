@@ -1,0 +1,19 @@
+meta {
+  name: POST ambientes
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://127.0.0.1:8000/api/ambientes/post
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "sig": 23432,
+    "descricao": "TESTE",
+    "responsavel": 44
+  }
+}

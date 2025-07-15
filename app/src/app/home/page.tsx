@@ -10,8 +10,15 @@ import { HeritageIconHome } from "../../../public/icons/home/HeritageIconHome"
 import { SpacesIconHome } from "../../../public/icons/home/SpacesIconHome"
 import { useRouter } from "next/navigation"
 
+
 function Home (){
     const router = useRouter()
+
+        
+    function changeSelected(selected: string){
+        localStorage.setItem('selectedSideBar', `${selected}`)
+        router.push(`${selected}`)
+    }
 
     return(
         <div className="flex flex-col justify-center h-screen bg-[#1C1C1C]">
@@ -29,7 +36,7 @@ function Home (){
 
                         <div className="flex gap-x-10 justify-center">
                             <ContainerHome Icon={<SpacesIconHome/>}title={'spaces'} text={'Manage all the spaces: create, update, view, and delete.'} onClick={()=>router.push('/ambientes')}/>
-                            <ContainerHome Icon={<OsIconHome/>}title={'areas'} text={'Manage all the managers: create, update, view, and delete them.'} onClick={()=>router.push('/areas')}/>
+                            <ContainerHome Icon={<OsIconHome/>}title={'areas'} text={'Manage all the managers: create, update, view, and delete them.'} onClick={()=>changeSelected('areas')}/>
                         </div>
                     </section>
                 </div>
